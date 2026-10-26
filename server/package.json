@@ -1,0 +1,15 @@
+{
+  "name": "ai-tools-pak-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "add-token": "node addToken.js",
+    "orders": "node orders.js"
+  },
+  "dependencies": {
+    "compression": "^1.8.2",
+    "express": "^4.19.2",
+    "nodemailer": "^10.0.15"
+  }
+}

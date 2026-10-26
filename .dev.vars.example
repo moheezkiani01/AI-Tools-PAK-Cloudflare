@@ -1,0 +1,6 @@
+# Copy this file to .dev.vars for LOCAL Cloudflare testing only.
+# NEVER upload .dev.vars or put real credentials in wrangler.jsonc.
+SUPABASE_URL="https://YOUR-PROJECT.supabase.co"
+SUPABASE_SECRET_KEY="sb_secret_YOUR_PRIVATE_KEY"
+ADMIN_PASSWORD="CHOOSE_A_STRONG_UNIQUE_PASSWORD"
+# Optional: SITE_URL is build-time (not only a runtime variable).

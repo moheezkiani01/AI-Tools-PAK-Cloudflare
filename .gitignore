@@ -1,0 +1,50 @@
+# Installed packages and generated files
+node_modules/
+**/node_modules/
+dist/
+screen-test-results/
+playwright-report/
+test-results/
+
+# Personal settings, private credentials and customer/order records
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+server/db.json
+server/*.db
+server/*.sqlite*
+
+# Local comparison reports and supplier/reference-only data (not storefront assets)
+/reference-review/
+/VERIFIED_REFERENCE_SAMPLES.csv
+/data/reference-baseline-existing.json
+/scripts/reference-diff.py
+/scripts/add-reference-new.mjs
+
+# Local noise
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Vercel local account metadata and temporary atomic database files
+.vercel/
+server/.db-*.tmp
+
+# Sensitive database exports (never commit customer data)
+backups/
+
+# Supplier input data and private import reports (never push costs/supplier info)
+/private-catalog/*.csv
+/private-catalog/*.json
+/private-catalog/*.xlsx
+/private-catalog/*.txt
+
+# Cloudflare local secrets and build cache (never commit credentials)
+.dev.vars*
+!.dev.vars.example
+.wrangler/
