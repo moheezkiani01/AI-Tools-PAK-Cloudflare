@@ -1,105 +1,111 @@
-> **October 2026 catalog upgrade:** Read [UPGRADE_GUIDE.md](./UPGRADE_GUIDE.md) before applying the additive Supabase migration and importing supplier products.
+<div align="center">
 
-# AI Tools PAK — GitHub + Vercel Hobby + Supabase Free
+# AI Tools PAK
 
-Study/demo website: React + Vite storefront, Node.js/Express serverless API, password-protected admin and **Supabase PostgreSQL** storage. No Upstash, no paid database, no credit card or domain purchase is required for the basic project. Custom cursor tails and bubble effects remain removed.
+### Full-Stack AI Directory, Tool Discovery Platform & Cloud Deployment Architecture
 
-The project uses **Supabase Free + Vercel Hobby**. Vercel Hobby only permits **personal/non-commercial** projects; it is suitable for this study/demo project, not live paid subscription sales. Each platform has usage limits. Supabase Free may pause after about seven days of low activity; resume it from the Supabase dashboard if required.
+[![Live Platform](https://img.shields.io/badge/Live%20Platform-aitoolspak.com-0051C3?style=flat-square&logo=googlechrome&logoColor=white)](https://aitoolspak.com/)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-Build%20Tool-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Cloudflare Workers](https://img.shields.io/badge/Cloudflare-Workers-F38020?style=flat-square&logo=cloudflare&logoColor=white)](https://workers.cloudflare.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E?style=flat-square&logo=supabase&logoColor=white)](https://supabase.com/)
+[![Vercel](https://img.shields.io/badge/Deployment-Vercel-black?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
 
-## 1 — Create a Supabase database (free)
+[**Live Website**](https://aitoolspak.com/) · [**Cloudflare Deployment**](./CLOUDFLARE_DEPLOY_README.md) · [**Supabase Setup**](#1--create-a-supabase-database-free) · [**Local Development**](#2--run-the-website-yourself-on-windows--vs-code)
+
+</div>
+
+---
+
+> [!NOTE]
+> **Production vs. Reference Implementation:**  
+> This repository contains the public source, Cloudflare Workers adapter, and Supabase database schema for the **AI Tools PAK** platform. The live, actively served platform with real-time tool listings and SEO optimization is deployed at **[https://aitoolspak.com/](https://aitoolspak.com/)**.
+
+---
+
+## Overview
+
+**AI Tools PAK** is a curated discovery catalog and management platform designed to help users, students, and engineers discover and evaluate artificial intelligence software and productivity tools.
+
+The platform combines a lightweight, responsive React frontend with serverless backend APIs, pre-rendered SEO pages for deep search engine indexability, and a PostgreSQL database on Supabase secured via **Row Level Security (RLS)**.
+
+### Architectural Highlights
+
+- **Edge & Serverless Deployment:** Designed for deployment across both **Cloudflare Workers** (edge compute) and **Vercel** serverless functions.
+- **Data Persistence & Isolation:** Powered by **Supabase PostgreSQL** utilizing Row Level Security, atomic database functions for catalog mutations, and brute-force throttling on administrative authentication.
+- **SEO & Pre-Rendering:** Dynamic collection and product detail pages pre-rendered for search indexation and rich social link cards.
+- **Administrative Portal:** Protected administrative interface for updating pricing, tool descriptions, stock, and category taxonomies in real time.
+
+---
+
+## 1 — Create a Supabase Database (Free)
 
 1. Open https://supabase.com/dashboard and sign up/log in.
 2. **New project** → choose the **Free** plan. Wait until the project is ready.
-3. Open **SQL Editor → New query**. Copy **all the content** of [`supabase/schema.sql`](supabase/schema.sql) and press **Run**. This is required; creating a project alone is not sufficient. You can rerun the SQL safely without deleting orders.
+3. Open **SQL Editor → New query**. Copy **all the content** of [`supabase/schema.sql`](supabase/schema.sql) and press **Run**. This is required; creating a project alone is not sufficient. You can rerun the SQL safely without deleting data.
 4. Copy the **Project URL** (`https://YOUR-PROJECT.supabase.co`) from the project's Connect dialog or Settings > API.
 5. Copy an **API Secret key** (starts `sb_secret_`) from **Settings → API Keys**. This key is for the Node backend ONLY. **Never commit the key to GitHub, paste it in React code, or prefix it with `VITE_`.** You do **not** need the publishable/anon key for this project.
 
-The SQL makes the data tables private with Row Level Security, and adds atomic Postgres functions for saving changes and throttling admin password attempts. The Express API is the only part that accesses the private database.
+The SQL makes data tables private with Row Level Security, and adds atomic Postgres functions for saving changes and throttling admin password attempts. The Express API is the only part that accesses the private database.
 
-## 2 — Run the website yourself on Windows / VS Code
+---
 
-Install Node.js **22.x**, then extract the ZIP and open the `AI-Tools-PAK` folder in VS Code.
+## 2 — Run the Website Yourself on Windows / VS Code
+
+Install Node.js **22.x**, then open this folder in your terminal or VS Code:
 
 ```bash
 npm run setup
 npm run dev
 ```
 
-- Website: http://localhost:5173
-- Admin: http://localhost:5173/admin
-- Setup asks you to create a long (12+ character) admin password.
-- By default, local development stores data privately in `server/db.json` without Supabase.
-- To test the real Supabase database locally, open `server/.env` (created by `npm run setup`) and set `SUPABASE_URL` and `SUPABASE_SECRET_KEY`, then restart `npm run dev`. **Local operations will then use that cloud database**.
-- Run `npm test` and `npm run build` to check the code. `npm run backup -- --cloud` downloads a private backup when the cloud variables are present.
+- **Website:** http://localhost:5173
+- **Admin:** http://localhost:5173/admin
+- Setup prompts you to establish a secure (12+ character) admin password.
+- By default, local development stores data privately in `server/db.json` without requiring Supabase.
+- To connect a live Supabase database locally, open `server/.env` (generated by `npm run setup`) and configure `SUPABASE_URL` and `SUPABASE_SECRET_KEY`, then restart `npm run dev`.
+- Execute `npm test` and `npm run build` to verify the codebase. `npm run backup -- --cloud` downloads a private backup when cloud variables are present.
 
-## 3 — Push the files to your own GitHub repository
+---
 
-Create a **new empty** repository on https://github.com/new. In the extracted `AI-Tools-PAK` directory, use:
+## 3 — Deploy on Cloudflare Workers
+
+For deploying to Cloudflare Workers with static asset binding, refer to the complete guide in [**CLOUDFLARE_DEPLOY_README.md**](./CLOUDFLARE_DEPLOY_README.md).
 
 ```bash
-git init
-git add .
-git commit -m "Free Vercel and Supabase deployment"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/AI-Tools-PAK.git
-git push -u origin main
+# Dry run verification
+npm run cloudflare:check
+
+# Deploy to Cloudflare
+npm run cloudflare:deploy
 ```
 
-Replace the GitHub URL. If the repo already has Git configured, skip `git init` and `git remote add`, and commit/push normally. `.gitignore` excludes secrets, customer data, backups, `dist`, `node_modules`, and Vercel local files.
+---
 
-## 4 — Deploy on Vercel's Hobby (free) plan
+## 4 — Deploy on Vercel (Serverless Alternative)
 
 1. Go to https://vercel.com/new → Import your GitHub repository.
-2. Choose **Hobby (free)** for your **personal, non-commercial study project**.
+2. Choose **Hobby (free)** for personal/study projects.
 3. Root Directory: `./` (repository root, **not** `server`, `src` or `dist`). Framework: **Vite**. Node.js: **22.x**.
-4. `vercel.json` supplies the installation command, build command, output folder, and serverless API routes. Usually you should not override these settings.
-5. Add these **Environment Variables** before you deploy. They must be **server-side** settings, without the `VITE_` prefix:
+4. Configure required server-side **Environment Variables**:
+   - `SUPABASE_URL`: `https://YOUR-PROJECT.supabase.co`
+   - `SUPABASE_SECRET_KEY`: `sb_secret_...` (from Supabase API Keys)
+   - `ADMIN_PASSWORD`: Your unique administrative password (12+ characters)
+   - `SITE_URL`: Optional custom domain or production URL
+5. Click **Deploy**.
 
-   | Name | Value |
-   | --- | --- |
-   | `SUPABASE_URL` | `https://YOUR-PROJECT.supabase.co` |
-   | `SUPABASE_SECRET_KEY` | `sb_secret_...` from Supabase API Keys → Secret keys |
-   | `ADMIN_PASSWORD` | Your own unique admin password, **12+ characters** |
-   | `SITE_URL` | Optional: your public site URL, once available |
+---
 
-6. Apply them to **Production**. If using Preview, consider leaving it disabled or use a separate Supabase free project to avoid test data modifying your live database.
-7. Press **Deploy**. Every new `git push` will trigger another deployment.
+## 5 — Post-Deployment Verification
 
-**Note:** `ADMIN_PASSWORD` in your local `server/.env` is **not** automatically copied to Vercel. Set it separately in Vercel → Project → Settings → Environment Variables.
+Verify key endpoints after deployment:
+- `https://YOUR-SITE/` — Frontend landing page and search index.
+- `https://YOUR-SITE/api/health` — Verifies API and database connectivity (`{"ok":true,"storage":"supabase"}`).
+- `https://YOUR-SITE/admin` — Administrative login and management portal.
 
-## 5 — Check your live website
+---
 
-Visit these URLs after deployment:
+## Security & Architecture Notes
 
-- `https://YOUR-SITE.vercel.app/` — homepage works.
-- `https://YOUR-SITE.vercel.app/product/gemini-pro` — direct product link works.
-- `https://YOUR-SITE.vercel.app/api/health` — must return JSON such as `{"ok":true,"storage":"supabase","orders":0}`.
-- `https://YOUR-SITE.vercel.app/api/discounts` — returns JSON.
-- `https://YOUR-SITE.vercel.app/admin` — log in with `ADMIN_PASSWORD`. Try an incorrect password as well.
-- Change one price, description, discount or stock setting in admin; refresh to confirm the change persists.
-- Place a **sample checkout**, then verify it appears in Admin → Website orders, and test changing its status. Don't enter real customer info for a demo.
-
-If `/api/health` fails, **don't accept checkout submissions** until you fix it.
-
-## Troubleshooting
-
-| Error | Solution |
-| --- | --- |
-| `/api/health` is 503 and mentions credentials | Set **both** `SUPABASE_URL` and `SUPABASE_SECRET_KEY` on Vercel, then **Redeploy**. |
-| 503 and mentions `schema.sql` | Open Supabase SQL Editor, run the whole `supabase/schema.sql` file, then retry. |
-| Supabase HTTP 401/403 | Check the project's **Secret** key, not the publishable key, and check the URL. |
-| `/api/health` is HTML/404 | Ensure `api/index.js` and `vercel.json` were pushed and Vercel root is `./`. |
-| `Cannot find module 'express'` | Use the custom Install Command in `vercel.json` so the `server` packages install. |
-| Build error | Use Node 22.x and include both `package-lock.json` files. Inspect the Vercel deployment logs. |
-| Admin disabled | Set `ADMIN_PASSWORD` (12+ characters) in Vercel and redeploy. |
-| Database stopped responding after inactivity | Free Supabase projects can be paused. Resume in Supabase dashboard. |
-| Recent admin edit conflict (409) | Another update happened at the same time. Refresh and retry. |
-
-## Important notes
-
-- No Supabase keys are stored in this repository or frontend JavaScript. Your database connection lives only in the Node backend.
-- Website changes, orders, reviews and discounts are persisted in one PostgreSQL `JSONB` record for simplicity. This is appropriate for a small study project, not a high-traffic relational-commerce platform.
-- The SQL applies Row Level Security and grants access only to the backend's `service_role`.
-- Use free subdomains like `YOUR-SITE.vercel.app`; a custom domain is optional and usually costs money.
-- Vercel/Supabase free tier quotas and restrictions may change. A successful local test cannot guarantee Vercel and Supabase will never have outages.
-- Keep `server/.env` private; export backups with `npm run backup -- --cloud` and store them somewhere safe. Supabase free does not offer automatic database backups.
+- No Supabase secret keys are exposed to client-side JavaScript or committed to version control.
+- All Supabase tables enforce Row Level Security (RLS) restricting direct access solely to the backend's `service_role`.
